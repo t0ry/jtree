@@ -11,7 +11,8 @@ repositories {
 dependencies {
     testCompile group: 'org.junit.jupiter', 	name: 'junit-jupiter-engine', 	version: '5.1.0'
     testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.1.0'
-    testCompile group: 'org.mockito',		name: 'mockito-all', 			version: '1.9.5'
+	testCompile group: 'org.mockito', 	    name: 'mockito-core',            version: '2.27.0'
+
 }
 
 test {
@@ -26,4 +27,8 @@ tasks.withType(Test) {
     }
 }
 
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
 

@@ -55,17 +55,6 @@ public final class NodeTest {
   }
 
   @Test
-  public void addNodeWithExistingDataTest() {
-    final Object data = new Object();
-    final Node<Object> node = new Node<>(data);
-
-    final DataCollisionException actualException =
-        assertThrows(DataCollisionException.class, () -> node.addNode(data));
-    assertEquals(String.format("Data [%s] is already present in node or subtree", data),
-        actualException.getMessage());
-  }
-
-  @Test
   public void addNodeWithNotificationTest() {
     final Node<Object> node = new Node<>(new Object());
 
@@ -95,35 +84,6 @@ public final class NodeTest {
     }, false);
 
     node.addNode(new Object());
-  }
-
-  @Test
-  public void removeNodeWithDataTest() {
-    final Object data = new Object();
-    final Node<Object> node = new Node<>(new Object());
-    node.addNode(data).addNode(new Object());
-
-    assertTrue(node.removeNodeWithData(data));
-    assertEquals(0, node.getSubtree().size());
-  }
-
-  @Test
-  public void removeNodeWithDataAndNotificationTest() {
-    final Node<Object> node = new Node<>(new Object());
-    final Object data = new Object();
-    node.addNode(data);
-
-    node.addStructureChangesHandler((n, c, e) -> {
-      assertEquals(node, n);
-      assertEquals(TreeStructureChangeEvent.REMOVE_NODE, e);
-    }, false);
-    node.addStructureChangesHandler((n, c, e) -> {
-      assertTrue(node.equals(n));
-      assertTrue(TreeStructureChangeEvent.REMOVE_NODE.equals(e));
-    }, false);
-
-    assertTrue(node.removeNodeWithData(data));
-    assertEquals(0, node.getSubtree().size());
   }
 
   @Test
@@ -251,14 +211,39 @@ public final class NodeTest {
   }
 
   @Test
-  public void findDeepTest() {
+  public void findDataTest() {
     final Object data = new Object();
     final Node<Object> node = new Node<>(new Object());
     final Node<Object> nodeWithDataToFind = node.addNode(data);
     nodeWithDataToFind.addNode(new Object());
 
     assertEquals(new HashSet<>(Collections.singletonList(nodeWithDataToFind.getData())),
-        node.find(data::equals));
+        node.findData(data::equals));
+  }
+
+  @Test
+  public void findNodesTest() {
+    final Object data = new Object();
+    final Node<Object> node = new Node<>(new Object());
+    final Node<Object> nodeWithDataToFind = node.addNode(data);
+    nodeWithDataToFind.addNode(new Object());
+
+    assertEquals(new HashSet<>(Collections.singletonList(nodeWithDataToFind)),
+        node.findNodes(data::equals));
+  }
+
+  @Test
+  public void findDataWithNullFilterTest() {
+    final Node<Object> node = new Node<>(new Object());
+
+    assertThrows(IllegalArgumentException.class, () -> node.findData(null));
+  }
+
+  @Test
+  public void findNodesWithNullFilterTest() {
+    final Node<Object> node = new Node<>(new Object());
+
+    assertThrows(IllegalArgumentException.class, () -> node.findNodes(null));
   }
 
   @Test

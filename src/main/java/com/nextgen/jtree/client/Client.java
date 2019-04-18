@@ -3,6 +3,9 @@ package com.nextgen.jtree.client;
 import java.util.Set;
 import com.nextgen.jtree.JTree;
 
+/**
+ * Client example with custom data.
+ */
 final class Client {
 
   static JTree<ClientData> buildTreeWithDataToNotFind() {
@@ -32,6 +35,6 @@ final class Client {
   }
 
   static Set<ClientData> findInTree(final JTree<ClientData> tree) {
-    return tree.find(new ClientBiginningFilter().and(new ClientEndingFilter()));
+    return tree.findData(new ClientBiginningFilter().and(new ClientEndingFilter()));
   }
 }
