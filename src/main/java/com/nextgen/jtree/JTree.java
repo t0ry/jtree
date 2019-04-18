@@ -3,7 +3,7 @@ package com.nextgen.jtree;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class JTree<T> {
+public final class JTree<T> {
   private Node<T> root;
 
   private JTree() {}
@@ -17,6 +17,10 @@ public class JTree<T> {
   }
 
   public static <T> JTree<T> treeWithRoot(final T data) {
+    if (data == null) {
+      throw new IllegalArgumentException();
+    }
+
     return new JTree<T>(data);
   }
 
@@ -26,27 +30,6 @@ public class JTree<T> {
     }
     root = new Node<T>(data);
   }
-
-  // public void addNode(final T data, final Node<T> parentNode) {
-  // parentNode.addNode(new Node<T>(data));
-  // }
-  //
-  // public void addNodeToRoot(final T data) {
-  // root.addNode(new Node<T>(data));
-  // }
-  //
-  // public boolean removeNode(final Node<T> nodeToRemove, final Node<T>
-  // parentNode) {
-  // return parentNode.removeNode(nodeToRemove);
-  // }
-  //
-  // public boolean removeFromRoot(final Node<T> nodeToRemove) {
-  // return root.removeNode(nodeToRemove);
-  // }
-  //
-  // public Set<Node<T>> getSubtree(final Node<T> parent) {
-  // return parent.getSubtree();
-  // }
 
   public Node<T> getRoot() {
     return root;

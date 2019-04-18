@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import com.nextgen.jtree.JTreeStructureChangesEventHandler.TreeStructureChangeEvent;
 
-public class NodeTest {
+public final class NodeTest {
 
   @Test
   public void constructorWithDataTest() {
@@ -269,6 +269,9 @@ public class NodeTest {
 
     assertEquals(data.size(), node.getSubtree().size());
     node.getSubtree().forEach(n -> assertTrue(data.contains(n.getData())));
+
+    assertThrows(UnsupportedOperationException.class,
+        () -> node.getSubtree().add(new Node<Object>(new Object())));
   }
 
   @Test

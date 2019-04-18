@@ -3,7 +3,7 @@ package com.nextgen.jtree;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class JTreeManagerTest {
+public final class JTreeManagerTest {
 
   @Test
   public void defineMaxChildrenLimitForNodeTest() {

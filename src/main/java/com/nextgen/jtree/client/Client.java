@@ -3,9 +3,9 @@ package com.nextgen.jtree.client;
 import java.util.Set;
 import com.nextgen.jtree.JTree;
 
-public class Client {
+final class Client {
 
-  public static JTree<ClientData> buildTreeWithDataToNotFind() {
+  static JTree<ClientData> buildTreeWithDataToNotFind() {
     final JTree<ClientData> tree = JTree.treeWithRoot(new ClientData("root"));
 
     tree.getRoot().addNode(new ClientData("sub root 1"))
@@ -18,7 +18,7 @@ public class Client {
   }
 
 
-  public static JTree<ClientData> buildTreeWithDataToFind() {
+  static JTree<ClientData> buildTreeWithDataToFind() {
     final JTree<ClientData> tree = JTree.treeWithRoot(new ClientData("root"));
 
     tree.getRoot().addNode(new ClientData("sub root 1"))
@@ -31,7 +31,7 @@ public class Client {
     return tree;
   }
 
-  public static Set<ClientData> findInTree(final JTree<ClientData> tree) {
+  static Set<ClientData> findInTree(final JTree<ClientData> tree) {
     return tree.find(new ClientBiginningFilter().and(new ClientEndingFilter()));
   }
 }

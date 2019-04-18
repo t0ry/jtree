@@ -11,26 +11,22 @@ import com.nextgen.jtree.JTreeStructureChangesEventHandler.TreeStructureChangeEv
 public class Node<T> implements Searcheable<T> {
   private Node<T> parent;
 
-  private T data;
-  private Set<Node<T>> subtree = new HashSet<>();
+  private final T data;
+  private final Set<Node<T>> subtree = new HashSet<>();
 
-  private List<JTreeStructureChangesEventHandler<T>> structureChangesHandlers = new LinkedList<>();
+  private final List<JTreeStructureChangesEventHandler<T>> structureChangesHandlers =
+      new LinkedList<>();
 
   public Node(final T data) {
     verifyArguments(data);
+
     this.data = data;
   }
 
   public Node<T> addNode(final T data) {
     verifyArguments(data);
-    return addNode(new Node<>(data));
-  }
 
-  private void notifyChanges(final Node<T> cause, final TreeStructureChangeEvent event) {
-    if (structureChangesHandlers.isEmpty()) {
-      return;
-    }
-    structureChangesHandlers.forEach(h -> h.handle(this, cause, event));
+    return addNode(new Node<>(data));
   }
 
   public Node<T> addNode(final Node<T> node) {
@@ -47,31 +43,20 @@ public class Node<T> implements Searcheable<T> {
     return node;
   }
 
-  private void verifyArguments(final Object... args) {
-    for (Object arg : args) {
-      if (arg == null) {
-        throw new IllegalArgumentException();
-      }
-    }
-  }
-
-  private void verifyDataCollision(final Node<T> node) {
-    if (!find(node.getData()::equals).isEmpty()) {
-      throw new DataCollisionException(node.getData());
-    }
-  }
-
   public boolean removeNode(final Node<T> node) {
     final boolean removed = subtree.removeIf(n -> n.equals(node));
+
     if (removed) {
       notifyChanges(node, TreeStructureChangeEvent.REMOVE_NODE);
     }
+
     return removed;
   }
 
   public boolean removeNodeWithData(final T data) {
     final Node<T> nodeToRemove =
         subtree.stream().filter(n -> n.getData().equals(data)).findFirst().orElse(null);
+
     return removeNode(nodeToRemove);
   }
 
@@ -112,22 +97,13 @@ public class Node<T> implements Searcheable<T> {
     }
   }
 
-  // @Override
-  // public boolean equals(final Object other) {
-  // if (other == null) {
-  // return false;
-  // }
-  // if (this == other) {
-  // return true;
-  // }
-  // if (!other.getClass().equals(getClass())) {
-  // return false;
-  // }
-  //
-  // final Node<?> otherNode = (Node<?>) other;
-  // return this.data.equals(otherNode.data) &&
-  // this.subtree.equals(otherNode.getSubtree());
-  // }
+  public Node<T> getParent() {
+    return parent;
+  }
+
+  public boolean isRoot() {
+    return parent == null;
+  }
 
   @Override
   public String toString() {
@@ -135,16 +111,6 @@ public class Node<T> implements Searcheable<T> {
         subtree.size());
   }
 
-  // @Override
-  // public int hashCode() {
-  // return Objects.hash(data, subtree);
-  // }
-
-  // @Override
-  // public Set<T> find(final Predicate<T> filter) {
-  // return
-  // subtree.stream().map(Node::getData).filter(filter).collect(Collectors.toSet());
-  // }
 
   @Override
   public Set<T> find(final Predicate<T> filter) {
@@ -152,7 +118,6 @@ public class Node<T> implements Searcheable<T> {
     if (filter.test(data)) {
       result.add(data);
     }
-    // result.addAll(subtree.stream().map(Node::getData).filter(filter).collect(Collectors.toSet()));
 
     for (Node<T> node : subtree) {
       result.addAll(node.find(filter));
@@ -161,11 +126,25 @@ public class Node<T> implements Searcheable<T> {
     return result;
   }
 
-  public Node<T> getParent() {
-    return parent;
+  private void verifyArguments(final Object... args) {
+    for (Object arg : args) {
+      if (arg == null) {
+        throw new IllegalArgumentException();
+      }
+    }
   }
 
-  public boolean isRoot() {
-    return parent == null;
+  private void verifyDataCollision(final Node<T> node) {
+    if (!find(node.getData()::equals).isEmpty()) {
+      throw new DataCollisionException(node.getData());
+    }
   }
+
+  private void notifyChanges(final Node<T> cause, final TreeStructureChangeEvent event) {
+    if (structureChangesHandlers.isEmpty()) {
+      return;
+    }
+    structureChangesHandlers.forEach(h -> h.handle(this, cause, event));
+  }
+
 }

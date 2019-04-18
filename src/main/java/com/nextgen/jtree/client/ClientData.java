@@ -2,18 +2,18 @@ package com.nextgen.jtree.client;
 
 import java.util.Objects;
 
-public class ClientData {
+final class ClientData {
   private String string;
 
-  public ClientData(String string) {
+  ClientData(String string) {
     this.string = string;
   }
 
-  public String getString() {
+  String getString() {
     return string;
   }
 
-  public void setString(String string) {
+  void setString(String string) {
     this.string = string;
   }
 

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
-public class JTreeTest {
+public final class JTreeTest {
   @Test
   public void emptyTreeTest() {
     final JTree<Object> jTree = JTree.<Object>emptyTree();
@@ -21,6 +21,11 @@ public class JTreeTest {
 
     assertNotNull(jTree.getRoot());
     assertEquals(jTree.getRoot().getData(), data);
+  }
+
+  @Test
+  public void treeWithRootWithNullDataTest() {
+    assertThrows(IllegalArgumentException.class, () -> JTree.treeWithRoot(null));
   }
 
   @Test

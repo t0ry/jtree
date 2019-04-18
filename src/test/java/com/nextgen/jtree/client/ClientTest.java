@@ -7,7 +7,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import com.nextgen.jtree.JTree;
 
-public class ClientTest {
+public final class ClientTest {
   @Test
   public void findInTreeTest() {
     final JTree<ClientData> tree = Client.buildTreeWithDataToFind();

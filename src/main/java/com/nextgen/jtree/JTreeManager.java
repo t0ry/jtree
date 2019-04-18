@@ -1,6 +1,6 @@
 package com.nextgen.jtree;
 
-public class JTreeManager {
+public final class JTreeManager {
   public static <T> int defineMaxChildrenLimitForNode(final Node<T> node,
       final int maxAllowedChildren) {
     int limit = maxAllowedChildren - node.getSubtreeLength();

@@ -2,7 +2,7 @@ package com.nextgen.jtree.client;
 
 import java.util.function.Predicate;
 
-public class ClientBiginningFilter implements Predicate<ClientData> {
+final class ClientBiginningFilter implements Predicate<ClientData> {
 
   @Override
   public boolean test(final ClientData data) {
