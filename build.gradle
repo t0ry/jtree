@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    
+}
+
+dependencies {
+    testCompile group: 'org.junit.jupiter', 	name: 'junit-jupiter-engine', 	version: "5.1.0"
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: "1.1.0"
+    testCompile group: 'org.mockito',		name: 'mockito-all', 			version: '1.9.5'
+}
+
+sourceSets {
+    unitTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDirs = ['src/test/java']
+        }
+    }
+}
